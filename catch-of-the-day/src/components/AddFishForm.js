@@ -3,7 +3,6 @@ import React from 'react';
 export default class AddFishForm extends React.Component {
   createFish(event) {
     event.preventDefault();
-    console.log("gunna make fish :fish:");
     const fish = {
       name: this.name.value,
       price: this.price.value,
@@ -30,8 +29,8 @@ export default class AddFishForm extends React.Component {
       </form>
     )
   }
-}
 
-AddFishForm.propTypes = {
-  addFish: React.PropTypes.func.isRequired
-};
+  static propTypes = {
+    addFish: React.PropTypes.func.isRequired
+  };
+}

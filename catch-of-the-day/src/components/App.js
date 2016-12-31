@@ -7,23 +7,24 @@ import sampleFishes from '../sample-fishes';
 import base from '../base';
 
 export default class App extends React.Component {
+
+  /*if bind using the arrow function, we don't even need the constructor!
+  and with refactoring, the state is initialized as object property..
+  Leave the commented code here for the future reference
+  */
+  /*
   constructor() {
     super();
-    //bind all class nethods to constructor
-    //another way of binding!!!  look at addFish method!!!
-    // this.addFish = this.addFish.bind(this);
-    this.updateFish = this.updateFish.bind(this);
-    this.removeFish = this.removeFish.bind(this);
-    this.addToOrder = this.addToOrder.bind(this);
-    this.removeFromOrder = this.removeFromOrder.bind(this);
-    this.loadSamples = this.loadSamples.bind(this);
-
-    //getInitialState
-    this.state = {
-      fishes: {},
-      order: {}
-    };
+    bind all class nethods to constructor
+    another way of binding!!!  look at addFish method!!!
+    this.addFish = this.addFish.bind(this);
   }
+  */
+  //define initial state just as object property
+  state = {
+    fishes: {},
+    order: {}
+  };
 
   componentWillMount() {
   //runs right before the <App> is rendered
@@ -50,12 +51,12 @@ export default class App extends React.Component {
     localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
   }
 
-  //ussing arrow finction we are able to bind context of `this` from the parent
+  //using arrow finction we are able to bind context of `this` from the parent
   //BUTTTT, make sure to add semicolon after method declaration
   addFish = (fish) => {
     //update state
-    //... is spreading will take every item of the object(in this case state)
-    // and spread into the newly creating object
+    //... is spreading will take every item of the object(in this case `state`)
+    // and spread into the object being created 
     const fishes = {...this.state.fishes}
     //add in new fish
     const timestamp = Date.now();
@@ -64,34 +65,34 @@ export default class App extends React.Component {
     this.setState({ fishes });
   };
 
-  updateFish(key, updatedFish) {
+  updateFish = (key, updatedFish) => {
     const fishes = {...this.state.fishes};
     fishes[key] = updatedFish;
     this.setState({ fishes });
-  }
+  };
 
-  removeFish(key) {
+  removeFish = (key) => {
     const fishes = {...this.state.fishes};
     fishes[key] = null;
     this.setState({ fishes });
-  }
+  };
 
-  loadSamples() {
+  loadSamples = () => {
     this.setState({
       fishes: sampleFishes
     });
   }
 
-  addToOrder(key) {
+  addToOrder = (key) => {
     // take a copy of state
     const order = {...this.state.order};
     //update or add a new number of fish ordered
     order[key] = order[key] + 1 || 1;
     //update state
     this.setState({ order });
-  }
+  };
 
-  removeFromOrder(key) {
+  removeFromOrder = (key) => {
     const order = {...this.state.order};
     delete order[key];
     this.setState({ order });
@@ -132,8 +133,7 @@ export default class App extends React.Component {
     </div>
     )
   }
+  static propTypes = {
+    params: React.PropTypes.object.isRequired
+  };
 }
-
-App.propTypes = {
-  params: React.PropTypes.object.isRequired
-};

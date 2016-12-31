@@ -3,19 +3,14 @@ import AddFishForm from './AddFishForm';
 import base from '../base';
 
 export default class Inventory extends React.Component {
-  constructor() {
-    super();
-    this.renderInventory = this.renderInventory.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.renderLogin = this.renderLogin.bind(this);
-    this.authenticate = this.authenticate.bind(this);
-    this.authHandler = this.authHandler.bind(this);
-    this.logout = this.logout.bind(this);
-    this.state = {
-      uid: null,
-      owner: null
-    }
-  }
+  /*
+  refactor here just as in `App.js` remove constructor
+   and move state into object properties .. sooooo much cleaner!!!!
+  */
+  state = {
+    uid: null,
+    owner: null
+  };
 
   componentDidMount() {
     base.onAuth((user) => {
@@ -25,30 +20,29 @@ export default class Inventory extends React.Component {
     });
   }
 
-  handleChange(e, key) {
+  handleChange = (e, key) => {
     const fish = this.props.fishes[key];
     //take a copy of the fish and update it with new data
+    //check out all those target properties..
     const updatedFish = {
       ...fish,
       [e.target.name]: e.target.value
     }
     this.props.updateFish(key, updatedFish);
-  }
+  };
 
-  authenticate(provider) {
-    console.log(`trying to login with ${provider}`);
+  authenticate = (provider) => {
     base.authWithOAuthPopup(provider, this.authHandler);
-  }
+  };
 
-  logout() {
+  logout = () => {
     base.unauth();
     this.setState({
       uid: null
     })
-  }
+  };
 
-  authHandler(err, authData) {
-    console.log(authData);
+  authHandler = (err, authData) => {
     if (err) {
       console.error(err);
       return;
@@ -71,9 +65,9 @@ export default class Inventory extends React.Component {
         owner:data.owner || authData.user.uid
       });
     });
-  }
+  };
 
-  renderLogin() {
+  renderLogin = () => {
     return (
       <nav className="login">
         <h2>Inventory</h2>
@@ -83,9 +77,9 @@ export default class Inventory extends React.Component {
         <button className="twitter" onClick={() => this.authenticate('twitter')}>Login with Twitter</button>
       </nav>
     )
-  }
+  };
 
-  renderInventory(key) {
+  renderInventory = (key) => {
     const fish = this.props.fishes[key];
     return (
       <div className="fish-edit" key={key}>
@@ -101,7 +95,7 @@ export default class Inventory extends React.Component {
         <button onClick={() => this.props.removeFish(key)}>Remove Fish</button>
       </div>
     )
-  }
+  };
 
   render() {
     const logout = <button onClick={this.logout}>Log Out!</button>;
@@ -130,13 +124,12 @@ export default class Inventory extends React.Component {
       </div>
     )
   }
+  static propTypes = {
+    fishes: React.PropTypes.object.isRequired,
+    addFish: React.PropTypes.func.isRequired,
+    updateFish: React.PropTypes.func.isRequired,
+    removeFish: React.PropTypes.func.isRequired,
+    loadSamples: React.PropTypes.func.isRequired,
+    storeId: React.PropTypes.string.isRequired,
+  };
 }
-
-Inventory.propTypes = {
-  fishes: React.PropTypes.object.isRequired,
-  addFish: React.PropTypes.func.isRequired,
-  updateFish: React.PropTypes.func.isRequired,
-  removeFish: React.PropTypes.func.isRequired,
-  loadSamples: React.PropTypes.func.isRequired,
-  storeId: React.PropTypes.string.isRequired,
-};
