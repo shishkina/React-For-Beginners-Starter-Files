@@ -14,7 +14,7 @@ const Root = () => {
   //basename={repo}
   //remove basename in order to continue workin on localhost
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={repo}>
       <div>
         <Match exactly pattern="/" component={StorePicker} />
         <Match pattern="/store/:storeId" component={App} />
