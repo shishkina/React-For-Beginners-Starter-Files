@@ -10,7 +10,8 @@ export default class App extends React.Component {
   constructor() {
     super();
     //bind all class nethods to constructor
-    this.addFish = this.addFish.bind(this);
+    //another way of binding!!!  look at addFish method!!!
+    // this.addFish = this.addFish.bind(this);
     this.updateFish = this.updateFish.bind(this);
     this.removeFish = this.removeFish.bind(this);
     this.addToOrder = this.addToOrder.bind(this);
@@ -49,7 +50,9 @@ export default class App extends React.Component {
     localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
   }
 
-  addFish(fish) {
+  //ussing arrow finction we are able to bind context of `this` from the parent
+  //BUTTTT, make sure to add semicolon after method declaration
+  addFish = (fish) => {
     //update state
     //... is spreading will take every item of the object(in this case state)
     // and spread into the newly creating object
@@ -59,7 +62,7 @@ export default class App extends React.Component {
     fishes[`fish-${timestamp}`] = fish;
     //set state
     this.setState({ fishes });
-  }
+  };
 
   updateFish(key, updatedFish) {
     const fishes = {...this.state.fishes};

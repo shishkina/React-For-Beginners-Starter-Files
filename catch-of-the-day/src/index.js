@@ -12,8 +12,9 @@ const repo = `/${window.location.pathname.split('/')[1]}`;
 
 const Root = () => {
   //basename={repo}
+  //remove basename in order to continue workin on localhost
   return (
-    <BrowserRouter basename={repo}>
+    <BrowserRouter>
       <div>
         <Match exactly pattern="/" component={StorePicker} />
         <Match pattern="/store/:storeId" component={App} />
