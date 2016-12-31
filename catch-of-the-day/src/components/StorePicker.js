@@ -24,7 +24,7 @@ goToStore = (event) => {
         </form>
     )
   }
-  static contextTypes = {
+}
+  StorePicker.contextTypes = {
     router: React.PropTypes.object
   };
-}
